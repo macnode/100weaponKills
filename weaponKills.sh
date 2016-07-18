@@ -3,7 +3,7 @@
 clear
 
 ########################################
-####  the100.io Weapon Kills v2.5   ####
+####  the100.io Weapon Kills v2.6   ####
 #### Scrapes member list from group ####
 ####  Calls Bungie API to get grim  ####
 #### 	  the100:  /u/L0r3          ####
@@ -24,6 +24,11 @@ grimCard="\
 302070,PulseRifle \
 302090,HandCannon"
 
+# 2016-06-21 Sniper
+# 2016-06-28 Handcannon
+# 2016-07-06 ScoutRifle
+# 2016-07-11 Shotgun
+
 #### READ grimCard INTO ARRAY VARIABLE, COUNT # OF OBJECTS IN ARRAY, PICK RANDOM ####
 IFS=' '
 grimObject=($grimCard)
@@ -31,7 +36,7 @@ grimCardCount=${#grimObject[*]}
 currentCard=`echo ${grimObject[$((RANDOM%grimCardCount))]}`
 
 #### MANUAL OVERRIDE IF YOU WANT TO PROCESS SPECIFIC ENEMY ####
-currentCard='303070,SniperRifle'
+currentCard='303010,Shotgun'
 
 #### INCLUDE FILE WITH YOUR BUNGIE API KEY ####
 source ${BASH_SOURCE[0]/%weaponKills.sh/apiKey.sh}
@@ -56,7 +61,7 @@ funcMemID ()
 sleep 1
 getUser=`curl -s -X GET \
 -H "Content-Type: application/json" -H "Accept: application/xml" -H "$authKey" \
-"http://www.bungie.net/Platform/Destiny/SearchDestinyPlayer/$selectedAccountType/$player/"`
+"https://www.bungie.net/Platform/Destiny/SearchDestinyPlayer/$selectedAccountType/$player/"`
 memID=`echo "$getUser" | grep -o 'membershipId.*' | cut -c 16- | sed 's/displayName.*[^displayName]*//' | rev | cut -c 4- | rev`
 }
 
